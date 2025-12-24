@@ -1,0 +1,62 @@
+-- Insert Users (demo accounts: passwords will be migrated to bcrypt on first login)
+INSERT INTO users (nom, prenom, email, password, role, date_inscription, actif, telephone) VALUES
+                                                                                               ('Admin', 'System', 'admin@event.ma', 'admin123', 'ADMIN', CURRENT_TIMESTAMP, true, '0612345678'),
+                                                                                               ('Admin2', 'System', 'admin2@event.ma', 'admin111', 'ADMIN', CURRENT_TIMESTAMP, true, '0612345678'),
+                                                                                               ('Alami', 'Hassan', 'organizer1@event.ma', 'org123', 'ORGANIZER', CURRENT_TIMESTAMP, true, '0623456789'),
+                                                                                               ('Bennani', 'Fatima', 'organizer2@event.ma', 'org123', 'ORGANIZER', CURRENT_TIMESTAMP, true, '0634567890'),
+                                                                                               ('Idrissi', 'Mohammed', 'client1@event.ma', 'client123', 'CLIENT', CURRENT_TIMESTAMP, true, '0645678901'),
+                                                                                               ('Zahiri', 'Amina', 'client2@event.ma', 'client123', 'CLIENT', CURRENT_TIMESTAMP, true, '0656789012');
+
+-- Insert Events (15 events with different categories and statuses)
+-- CONCERT Events
+INSERT INTO events (titre, description, categorie, date_debut, date_fin, lieu, ville, capacite_max, prix_unitaire, image_url, organisateur_id, statut, date_creation, date_modification) VALUES
+                                                                                                                                                                                             ('Festival Mawazine 2026', 'Le plus grand festival de musique du Maroc avec des artistes internationaux', 'CONCERT', '2026-06-15 20:00:00', '2026-06-15 23:59:00', 'Théâtre Mohammed V', 'Rabat', 5000, 250.0, 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3', 2, 'PUBLIE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+                                                                                                                                                                                             ('Concert de Jazz', 'Soirée jazz avec les meilleurs musiciens marocains', 'CONCERT', '2026-03-20 21:00:00', '2026-03-20 23:30:00', 'Studio des Arts Vivants', 'Casablanca', 300, 150.0, 'https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f', 2, 'PUBLIE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+                                                                                                                                                                                             ('Rap Marocain Night', 'Les plus grands rappeurs marocains en live', 'CONCERT', '2026-04-10 22:00:00', '2026-04-11 01:00:00', 'Complexe Culturel Sidi Belyout', 'Casablanca', 800, 100.0, 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f', 3, 'PUBLIE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- THEATRE Events
+INSERT INTO events (titre, description, categorie, date_debut, date_fin, lieu, ville, capacite_max, prix_unitaire, image_url, organisateur_id, statut, date_creation, date_modification) VALUES
+    ('Hamlet - Version Moderne', 'Une adaptation contemporaine du classique de Shakespeare', 'THEATRE', '2026-02-15 19:00:00', '2026-02-15 21:30:00', 'Théâtre Mohammed VI', 'Marrakech', 400, 120.0, 'https://images.unsplash.com/photo-1503095396549-807759245b35', 2, 'PUBLIE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('Comédie Marocaine', 'Spectacle humoristique en darija avec les meilleurs comédiens', 'THEATRE', '2026-03-05 20:00:00', '2026-03-05 22:00:00', 'Théâtre National Mohammed V', 'Rabat', 600, 80.0, 'https://images.unsplash.com/photo-1516715094483-75da06015025', 3, 'PUBLIE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('Le Malade Imaginaire', 'Pièce classique de Molière', 'THEATRE', '2026-05-20 18:30:00', '2026-05-20 20:30:00', 'Théâtre Cervantès', 'Tanger', 350, 100.0, 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf', 2, 'BROUILLON', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- CONFERENCE Events
+INSERT INTO events (titre, description, categorie, date_debut, date_fin, lieu, ville, capacite_max, prix_unitaire, image_url, organisateur_id, statut, date_creation, date_modification) VALUES
+    ('IA et Innovation au Maroc', 'Conférence sur l''intelligence artificielle et son impact', 'CONFERENCE', '2026-02-25 09:00:00', '2026-02-25 17:00:00', 'Technopark', 'Casablanca', 500, 200.0, 'https://images.unsplash.com/photo-1540575467063-178a50c2df87', 2, 'PUBLIE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('Entrepreneuriat Digital', 'Forum des entrepreneurs du digital', 'CONFERENCE', '2026-03-15 10:00:00', '2026-03-15 18:00:00', 'CGEM', 'Casablanca', 300, 150.0, 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678', 3, 'PUBLIE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('Développement Durable', 'Sommet sur l''environnement et le développement durable', 'CONFERENCE', '2026-04-22 08:30:00', '2026-04-22 16:30:00', 'Université Al Akhawayn', 'Ifrane', 250, 50.0, 'https://images.unsplash.com/photo-1591115765373-5207764f72e7', 2, 'PUBLIE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- SPORT Events
+INSERT INTO events (titre, description, categorie, date_debut, date_fin, lieu, ville, capacite_max, prix_unitaire, image_url, organisateur_id, statut, date_creation, date_modification) VALUES
+    ('Marathon de Casablanca', 'Course internationale 42km à travers la ville', 'SPORT', '2026-03-30 07:00:00', '2026-03-30 13:00:00', 'Corniche Ain Diab', 'Casablanca', 2000, 100.0, 'https://images.unsplash.com/photo-1452626038306-9aae5e071dd3', 3, 'PUBLIE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('Tournoi de Tennis', 'Championnat national de tennis', 'SPORT', '2026-04-15 14:00:00', '2026-04-15 20:00:00', 'Complexe Sportif Mohammed V', 'Rabat', 1000, 75.0, 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8', 2, 'PUBLIE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('Match de Football Caritatif', 'Match amical au profit d''associations', 'SPORT', '2026-05-10 17:00:00', '2026-05-10 19:00:00', 'Stade Municipal', 'Marrakech', 3000, 50.0, 'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d', 3, 'BROUILLON', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- AUTRE Events
+INSERT INTO events (titre, description, categorie, date_debut, date_fin, lieu, ville, capacite_max, prix_unitaire, image_url, organisateur_id, statut, date_creation, date_modification) VALUES
+    ('Exposition d''Art Contemporain', 'Exposition des artistes marocains contemporains', 'AUTRE', '2026-02-10 10:00:00', '2026-02-28 18:00:00', 'Villa des Arts', 'Casablanca', 200, 30.0, 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b', 2, 'PUBLIE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('Salon du Livre', 'Rencontre avec des auteurs et dédicaces', 'AUTRE', '2026-04-01 11:00:00', '2026-04-01 19:00:00', 'Palais des Congrès', 'Fès', 500, 0.0, 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570', 3, 'PUBLIE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ('Festival Gastronomique', 'Découverte de la cuisine marocaine et internationale', 'AUTRE', '2026-06-05 12:00:00', '2026-06-05 22:00:00', 'Place Jemaa el-Fna', 'Marrakech', 1000, 120.0, 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0', 2, 'PUBLIE', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- Insert Reservations (20 reservations with different statuses)
+INSERT INTO reservations (utilisateur_id, evenement_id, nombre_places, montant_total, date_reservation, statut, code_reservation, commentaire) VALUES
+                                                                                                                                                   (4, 1, 2, 500.0, '2025-12-10 10:30:00', 'CONFIRMEE', 'EVT-12345', 'Très impatient pour ce festival'),
+                                                                                                                                                   (5, 1, 4, 1000.0, '2025-12-11 14:20:00', 'CONFIRMEE', 'EVT-12346', NULL),
+                                                                                                                                                   (4, 2, 2, 300.0, '2025-12-12 09:15:00', 'CONFIRMEE', 'EVT-12347', 'Réservation pour anniversaire'),
+                                                                                                                                                   (5, 3, 3, 300.0, '2025-12-13 16:45:00', 'EN_ATTENTE', 'EVT-12348', NULL),
+                                                                                                                                                   (4, 4, 2, 240.0, '2025-12-14 11:30:00', 'CONFIRMEE', 'EVT-12349', NULL),
+                                                                                                                                                   (5, 5, 4, 320.0, '2025-12-15 13:50:00', 'CONFIRMEE', 'EVT-12350', 'Sortie en famille'),
+                                                                                                                                                   (4, 7, 1, 200.0, '2025-12-16 08:20:00', 'CONFIRMEE', 'EVT-12351', 'Conférence professionnelle'),
+                                                                                                                                                   (5, 7, 2, 400.0, '2025-12-16 10:35:00', 'EN_ATTENTE', 'EVT-12352', NULL),
+                                                                                                                                                   (4, 8, 1, 150.0, '2025-12-17 15:40:00', 'CONFIRMEE', 'EVT-12353', NULL),
+                                                                                                                                                   (5, 9, 3, 150.0, '2025-12-17 17:25:00', 'CONFIRMEE', 'EVT-12354', NULL),
+                                                                                                                                                   (4, 10, 1, 100.0, '2025-12-18 07:15:00', 'CONFIRMEE', 'EVT-12355', 'Première participation à un marathon'),
+                                                                                                                                                   (5, 10, 2, 200.0, '2025-12-18 09:30:00', 'EN_ATTENTE', 'EVT-12356', NULL),
+                                                                                                                                                   (4, 11, 3, 225.0, '2025-12-18 12:45:00', 'CONFIRMEE', 'EVT-12357', NULL),
+                                                                                                                                                   (5, 13, 2, 60.0, '2025-12-01 14:20:00', 'CONFIRMEE', 'EVT-12358', 'Passion pour l''art'),
+                                                                                                                                                   (4, 13, 1, 30.0, '2025-12-02 16:35:00', 'CONFIRMEE', 'EVT-12359', NULL),
+                                                                                                                                                   (5, 14, 5, 0.0, '2025-12-03 10:50:00', 'CONFIRMEE', 'EVT-12360', 'Avec mes enfants'),
+                                                                                                                                                   (4, 15, 2, 240.0, '2025-12-04 11:15:00', 'CONFIRMEE', 'EVT-12361', 'Amateur de cuisine'),
+                                                                                                                                                   (5, 2, 1, 150.0, '2025-12-05 13:40:00', 'ANNULEE', 'EVT-12362', 'Empêchement de dernière minute'),
+                                                                                                                                                   (4, 3, 2, 200.0, '2025-12-06 15:20:00', 'ANNULEE', 'EVT-12363', NULL),
+                                                                                                                                                   (5, 8, 1, 150.0, '2025-12-07 09:10:00', 'EN_ATTENTE', 'EVT-12364', NULL);
