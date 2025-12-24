@@ -30,9 +30,9 @@ import com.vaadin.flow.router.*;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
-@Route(value = "organizer/event/new", layout = MainLayout.class)
-@PageTitle("Créer Événement | EventPro")
-public class EventFormView extends VerticalLayout implements BeforeEnterObserver {
+@Route(value = "organizer/event/edit/:eventId", layout = MainLayout.class)
+@PageTitle("Modifier Événement | EventPro")
+public class EventEditView extends VerticalLayout implements HasUrlParameter<String>, BeforeEnterObserver {
 
     private final EventService eventService;
     private final NavigationManager navigationManager;
@@ -41,7 +41,6 @@ public class EventFormView extends VerticalLayout implements BeforeEnterObserver
     private User currentUser;
     private Event event;
     private Binder<Event> binder;
-    private boolean isEditMode = false;
     private boolean initialized = false;
 
     // Form fields
@@ -56,7 +55,7 @@ public class EventFormView extends VerticalLayout implements BeforeEnterObserver
     private NumberField prixUnitaireField;
     private TextField imageUrlField;
 
-    public EventFormView(EventService eventService,
+    public EventEditView(EventService eventService,
                          NavigationManager navigationManager,
                          SessionManager sessionManager) {
         this.eventService = eventService;
@@ -79,11 +78,30 @@ public class EventFormView extends VerticalLayout implements BeforeEnterObserver
             return;
         }
 
-        // This is the create event page
-        isEditMode = false;
-        this.event = new Event();
-        createForm();
         initialized = true;
+    }
+
+    @Override
+    public void setParameter(BeforeEvent beforeEvent, @OptionalParameter String eventIdStr) {
+        if (eventIdStr == null) {
+            navigationManager.navigateToMyEvents();
+            return;
+        }
+
+        try {
+            Long eventId = Long.parseLong(eventIdStr);
+            event = eventService.findById(eventId);
+            if (event == null) {
+                showError("Événement introuvable");
+                return;
+            }
+            createForm();
+            binder.readBean(event);
+        } catch (NumberFormatException e) {
+            navigationManager.navigateToMyEvents();
+        } catch (Exception e) {
+            showError("Événement introuvable");
+        }
     }
 
     private void createForm() {
@@ -109,14 +127,12 @@ public class EventFormView extends VerticalLayout implements BeforeEnterObserver
         titleSection.setSpacing(false);
         titleSection.setPadding(false);
 
-        H1 title = new H1(isEditMode ? "✏️ Modifier l'événement" : "➕ Créer un événement");
+        H1 title = new H1("✏️ Modifier l'événement");
         title.getStyle()
                 .set("margin", "0")
                 .set("font-weight", "700");
 
-        Paragraph subtitle = new Paragraph(isEditMode
-                ? "Modifiez les informations de votre événement"
-                : "Remplissez le formulaire pour créer un nouvel événement");
+        Paragraph subtitle = new Paragraph("Modifiez les informations de votre événement");
         subtitle.getStyle()
                 .set("margin", "0.5rem 0 0 0")
                 .set("opacity", "0.9");
@@ -184,12 +200,10 @@ public class EventFormView extends VerticalLayout implements BeforeEnterObserver
         // Dates
         dateDebutField = new DateTimePicker("Date de début *");
         dateDebutField.setRequiredIndicatorVisible(true);
-        dateDebutField.setMin(LocalDateTime.now());
         dateDebutField.setWidthFull();
 
         dateFinField = new DateTimePicker("Date de fin *");
         dateFinField.setRequiredIndicatorVisible(true);
-        dateFinField.setMin(LocalDateTime.now());
         dateFinField.setWidthFull();
 
         // Location
@@ -247,8 +261,7 @@ public class EventFormView extends VerticalLayout implements BeforeEnterObserver
         cancelBtn.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         cancelBtn.addClickListener(e -> navigationManager.navigateToMyEvents());
 
-        Button saveBtn = new Button(isEditMode ? "Enregistrer" : "Créer l'événement",
-                isEditMode ? VaadinIcon.CHECK.create() : VaadinIcon.PLUS.create());
+        Button saveBtn = new Button("Enregistrer", VaadinIcon.CHECK.create());
         saveBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_LARGE);
         saveBtn.addClickListener(e -> saveEvent());
 
@@ -279,8 +292,6 @@ public class EventFormView extends VerticalLayout implements BeforeEnterObserver
 
         binder.forField(dateDebutField)
                 .asRequired("La date de début est obligatoire")
-                .withValidator(date -> date == null || date.isAfter(LocalDateTime.now()),
-                        "La date de début doit être dans le futur")
                 .bind(Event::getDateDebut, Event::setDateDebut);
 
         binder.forField(dateFinField)
@@ -316,15 +327,8 @@ public class EventFormView extends VerticalLayout implements BeforeEnterObserver
     private void saveEvent() {
         try {
             binder.writeBean(event);
-
-            if (isEditMode) {
-                eventService.updateEvent(event.getId(), event, currentUser);
-                showNotification("✓ Événement modifié avec succès", NotificationVariant.LUMO_SUCCESS);
-            } else {
-                eventService.createEvent(event, currentUser);
-                showNotification("✓ Événement créé avec succès", NotificationVariant.LUMO_SUCCESS);
-            }
-
+            eventService.updateEvent(event.getId(), event, currentUser);
+            showNotification("✓ Événement modifié avec succès", NotificationVariant.LUMO_SUCCESS);
             navigationManager.navigateToMyEvents();
         } catch (ValidationException e) {
             showNotification("Veuillez corriger les erreurs dans le formulaire", NotificationVariant.LUMO_ERROR);
@@ -364,4 +368,3 @@ public class EventFormView extends VerticalLayout implements BeforeEnterObserver
         notification.open();
     }
 }
-

@@ -19,12 +19,13 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     /**
      * Find events by category
      */
-    List<Event> findByCategorie(EventCategory category);
+    @Query("SELECT DISTINCT e FROM Event e LEFT JOIN FETCH e.organisateur LEFT JOIN FETCH e.reservations WHERE e.categorie = :category ORDER BY e.dateDebut ASC")
+    List<Event> findByCategorie(@Param("category") EventCategory category);
 
     /**
      * Find published events between two dates
      */
-    @Query("SELECT e FROM Event e WHERE e.statut = 'PUBLIE' AND " +
+    @Query("SELECT DISTINCT e FROM Event e LEFT JOIN FETCH e.organisateur LEFT JOIN FETCH e.reservations WHERE e.statut = 'PUBLIE' AND " +
             "e.dateDebut >= :startDate AND e.dateDebut <= :endDate " +
             "ORDER BY e.dateDebut ASC")
     List<Event> findPublishedEventsBetweenDates(
@@ -35,12 +36,13 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     /**
      * Find events by organizer and status
      */
-    List<Event> findByOrganisateurAndStatut(User organizer, EventStatus status);
+    @Query("SELECT DISTINCT e FROM Event e LEFT JOIN FETCH e.organisateur LEFT JOIN FETCH e.reservations WHERE e.organisateur = :organizer AND e.statut = :status ORDER BY e.dateDebut DESC")
+    List<Event> findByOrganisateurAndStatut(@Param("organizer") User organizer, @Param("status") EventStatus status);
 
     /**
      * Find all available events (published and not finished)
      */
-    @Query("SELECT e FROM Event e WHERE e.statut = 'PUBLIE' AND " +
+    @Query("SELECT DISTINCT e FROM Event e LEFT JOIN FETCH e.organisateur LEFT JOIN FETCH e.reservations WHERE e.statut = 'PUBLIE' AND " +
             "e.dateDebut > :now ORDER BY e.dateDebut ASC")
     List<Event> findAvailableEvents(@Param("now") LocalDateTime now);
 
@@ -181,4 +183,10 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     @Query("SELECT DISTINCT e FROM Event e LEFT JOIN FETCH e.reservations " +
             "WHERE e.organisateur = :organizer ORDER BY e.dateCreation DESC")
     List<Event> findByOrganisateurWithReservations(@Param("organizer") User organizer);
+
+    /**
+     * Get all events with eagerly loaded organizer and reservations
+     */
+    @Query("SELECT DISTINCT e FROM Event e LEFT JOIN FETCH e.organisateur LEFT JOIN FETCH e.reservations ORDER BY e.dateCreation DESC")
+    List<Event> findAll();
 }

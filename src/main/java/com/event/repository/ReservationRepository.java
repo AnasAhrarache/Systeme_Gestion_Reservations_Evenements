@@ -19,12 +19,14 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     /**
      * Find reservations by user
      */
-    List<Reservation> findByUtilisateur(User user);
+    @Query("SELECT DISTINCT r FROM Reservation r LEFT JOIN FETCH r.utilisateur LEFT JOIN FETCH r.evenement WHERE r.utilisateur = :user")
+    List<Reservation> findByUtilisateur(@Param("user") User user);
 
     /**
      * Find reservations by event and status
      */
-    List<Reservation> findByEvenementAndStatut(Event event, ReservationStatus status);
+    @Query("SELECT DISTINCT r FROM Reservation r LEFT JOIN FETCH r.utilisateur LEFT JOIN FETCH r.evenement WHERE r.evenement = :event AND r.statut = :status")
+    List<Reservation> findByEvenementAndStatut(@Param("event") Event event, @Param("status") ReservationStatus status);
 
     /**
      * Calculate total reserved places for an event (excluding cancelled)
@@ -64,7 +66,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     /**
      * Find reservations by event
      */
-    List<Reservation> findByEvenement(Event event);
+    @Query("SELECT DISTINCT r FROM Reservation r LEFT JOIN FETCH r.utilisateur LEFT JOIN FETCH r.evenement WHERE r.evenement = :event")
+    List<Reservation> findByEvenement(@Param("event") Event event);
 
     /**
      * Find upcoming reservations for user
