@@ -68,24 +68,50 @@ public class DashboardView extends VerticalLayout implements BeforeEnterObserver
     private void createHeader() {
         VerticalLayout header = new VerticalLayout();
         header.setWidthFull();
-        header.setPadding(true);
+        header.setPadding(false);
         header.getStyle()
                 .set("background", "linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)")
                 .set("color", "white")
-                .set("padding", "2rem");
+                .set("padding", "4rem 2rem")
+                .set("position", "relative")
+                .set("overflow", "hidden");
 
-        H1 welcome = new H1("Bienvenue, " + currentUser.getPrenom() + " ! 👋");
+        // Pattern overlay
+        Div pattern = new Div();
+        pattern.getStyle()
+                .set("position", "absolute")
+                .set("top", "0")
+                .set("left", "0")
+                .set("right", "0")
+                .set("bottom", "0")
+                .set("background", "radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%)")
+                .set("pointer-events", "none");
+
+        VerticalLayout content = new VerticalLayout();
+        content.setWidthFull();
+        content.setAlignItems(Alignment.CENTER);
+        content.getStyle()
+                .set("position", "relative")
+                .set("z-index", "2")
+                .set("max-width", "1200px")
+                .set("margin", "0 auto");
+
+        H1 welcome = new H1("👋 Bienvenue, " + currentUser.getPrenom() + " !");
         welcome.getStyle()
                 .set("margin", "0")
-                .set("font-weight", "700");
+                .set("font-weight", "900")
+                .set("font-size", "2.5rem")
+                .set("text-shadow", "0 4px 20px rgba(0, 0, 0, 0.2)");
 
-        Paragraph subtitle = new Paragraph("Gérez vos événements et suivez vos statistiques");
+        Paragraph subtitle = new Paragraph("📊 Gérez vos événements et suivez vos statistiques");
         subtitle.getStyle()
                 .set("margin", "0.5rem 0 0 0")
-                .set("opacity", "0.9")
-                .set("font-size", "1.125rem");
+                .set("opacity", "0.95")
+                .set("font-size", "1.125rem")
+                .set("font-weight", "500");
 
-        header.add(welcome, subtitle);
+        content.add(welcome, subtitle);
+        header.add(pattern, content);
         add(header);
     }
 
@@ -96,12 +122,14 @@ public class DashboardView extends VerticalLayout implements BeforeEnterObserver
         statsSection.getStyle()
                 .set("max-width", "1200px")
                 .set("margin", "0 auto")
-                .set("padding", "2rem");
+                .set("padding", "3rem 2rem");
 
-        H2 sectionTitle = new H2("📊 Mes statistiques");
+        H2 sectionTitle = new H2("📈 Vos Statistiques");
         sectionTitle.getStyle()
-                .set("margin", "0 0 1.5rem 0")
-                .set("color", "#2d3748");
+                .set("margin", "0 0 2rem 0")
+                .set("color", "#1a202c")
+                .set("font-size", "1.75rem")
+                .set("font-weight", "800");
 
         // Get statistics
         Map<String, Object> stats = eventService.getOrganizerStatistics(currentUser);
@@ -109,71 +137,94 @@ public class DashboardView extends VerticalLayout implements BeforeEnterObserver
         HorizontalLayout statsCards = new HorizontalLayout();
         statsCards.setWidthFull();
         statsCards.setSpacing(true);
+        statsCards.getStyle()
+                .set("flex-wrap", "wrap")
+                .set("gap", "1.5rem");
 
         statsCards.add(
                 createStatCard(
-                        VaadinIcon.CALENDAR,
-                        "Événements total",
+                        "📅 ÉVÉNEMENTS",
                         stats.get("totalEvents").toString(),
+                        "Total créés",
                         "#4ECDC4"),
                 createStatCard(
-                        VaadinIcon.CHECK_CIRCLE,
-                        "Publiés",
+                        "✅ PUBLIÉS",
                         stats.get("publishedEvents").toString(),
+                        "En cours",
                         "#48bb78"),
                 createStatCard(
-                        VaadinIcon.EDIT,
-                        "Brouillons",
+                        "📝 BROUILLONS",
                         stats.get("draftEvents").toString(),
+                        "En attente",
                         "#ed8936"),
                 createStatCard(
-                        VaadinIcon.TICKET,
-                        "Réservations",
+                        "🎫 RÉSERVATIONS",
                         stats.get("totalReservations").toString(),
+                        "Total",
                         "#667eea"),
                 createStatCard(
-                        VaadinIcon.MONEY,
-                        "Revenus total",
+                        "💰 REVENUS",
                         String.format("%.0f DH", (Double) stats.get("totalRevenue")),
+                        "Total généré",
                         "#764ba2"));
 
         statsSection.add(sectionTitle, statsCards);
         add(statsSection);
     }
 
-    private VerticalLayout createStatCard(VaadinIcon iconType, String title, String value, String color) {
+    private VerticalLayout createStatCard(String label, String value, String subtitle, String color) {
         VerticalLayout card = new VerticalLayout();
-        card.setWidth("100%");
+        card.setWidth("calc(20% - 1.2rem)");
         card.setPadding(true);
         card.setSpacing(false);
+        card.setAlignItems(Alignment.CENTER);
         card.getStyle()
                 .set("background", "white")
-                .set("border-radius", "12px")
-                .set("box-shadow", "0 4px 6px rgba(0,0,0,0.1)")
-                .set("border-left", "4px solid " + color);
+                .set("border-radius", "16px")
+                .set("box-shadow", "0 4px 15px rgba(0, 0, 0, 0.08)")
+                .set("border-top", "4px solid " + color)
+                .set("transition", "all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)")
+                .set("text-align", "center")
+                .set("min-width", "180px");
 
-        Icon icon = iconType.create();
-        icon.setSize("32px");
-        icon.getStyle()
-                .set("color", color)
-                .set("margin-bottom", "1rem");
-
-        Span titleSpan = new Span(title);
-        titleSpan.getStyle()
-                .set("font-size", "0.875rem")
+        Span labelSpan = new Span(label);
+        labelSpan.getStyle()
+                .set("font-size", "0.85rem")
                 .set("color", "#718096")
                 .set("text-transform", "uppercase")
-                .set("display", "block")
+                .set("font-weight", "700")
+                .set("letter-spacing", "0.5px")
                 .set("margin-bottom", "0.5rem");
 
         Span valueSpan = new Span(value);
         valueSpan.getStyle()
-                .set("font-size", "2rem")
-                .set("font-weight", "800")
-                .set("color", "#2d3748")
-                .set("line-height", "1");
+                .set("font-size", "2.5rem")
+                .set("font-weight", "900")
+                .set("color", color)
+                .set("line-height", "1")
+                .set("margin-bottom", "0.5rem");
 
-        card.add(icon, titleSpan, valueSpan);
+        Span subtitleSpan = new Span(subtitle);
+        subtitleSpan.getStyle()
+                .set("font-size", "0.9rem")
+                .set("color", "#a0aec0")
+                .set("font-weight", "500");
+
+        card.add(labelSpan, valueSpan, subtitleSpan);
+
+        // Hover effect
+        card.getElement().addEventListener("mouseenter", e -> {
+            card.getStyle()
+                    .set("transform", "translateY(-8px)")
+                    .set("box-shadow", "0 20px 50px rgba(0, 0, 0, 0.15)");
+        });
+
+        card.getElement().addEventListener("mouseleave", e -> {
+            card.getStyle()
+                    .set("transform", "translateY(0)")
+                    .set("box-shadow", "0 4px 15px rgba(0, 0, 0, 0.08)");
+        });
+
         return card;
     }
 

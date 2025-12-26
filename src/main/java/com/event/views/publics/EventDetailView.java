@@ -101,66 +101,90 @@ public class EventDetailView extends VerticalLayout implements BeforeEnterObserv
     private void createHeaderSection() {
         Div headerContainer = new Div();
         headerContainer.setWidthFull();
-        headerContainer.setHeight("400px");
+        headerContainer.setHeight("500px");
         headerContainer.getStyle()
                 .set("background-image", "url('" +
                         (event.getImageUrl() != null ? event.getImageUrl() : "https://images.unsplash.com/photo-1492684223066-81342ee5ff30") + "')")
                 .set("background-size", "cover")
                 .set("background-position", "center")
-                .set("position", "relative");
+                .set("position", "relative")
+                .set("overflow", "hidden");
 
-        // Overlay
+        // Animated background pattern
+        Div pattern = new Div();
+        pattern.setWidthFull();
+        pattern.setHeight("100%");
+        pattern.getStyle()
+                .set("position", "absolute")
+                .set("top", "0")
+                .set("left", "0")
+                .set("background", "radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)")
+                .set("pointer-events", "none");
+
+        // Overlay with better gradient
         Div overlay = new Div();
         overlay.setWidthFull();
         overlay.setHeight("100%");
         overlay.getStyle()
-                .set("background", "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7))")
+                .set("background", "linear-gradient(135deg, rgba(0,0,0,0.2) 0%, rgba(102, 126, 234, 0.3) 50%, rgba(0,0,0,0.7) 100%)")
                 .set("position", "absolute")
                 .set("top", "0")
                 .set("left", "0")
                 .set("display", "flex")
-                .set("align-items", "flex-end")
-                .set("padding", "2rem");
+                .set("flex-direction", "column")
+                .set("align-items", "flex-start")
+                .set("justify-content", "flex-end")
+                .set("padding", "3rem 2rem")
+                .set("z-index", "2");
 
         VerticalLayout headerContent = new VerticalLayout();
         headerContent.setSpacing(false);
-        headerContent.getStyle().set("color", "white");
+        headerContent.getStyle()
+                .set("color", "white")
+                .set("width", "100%")
+                .set("max-width", "1200px")
+                .set("margin", "0 auto");
 
-        // Category badge
+        // Category badge with animation
         Span categoryBadge = new Span(event.getCategorie().getLabel());
         categoryBadge.getStyle()
                 .set("background", event.getCategorie().getColor())
                 .set("color", "white")
-                .set("padding", "0.5rem 1.5rem")
-                .set("border-radius", "20px")
-                .set("font-size", "0.875rem")
-                .set("font-weight", "600")
+                .set("padding", "0.75rem 1.5rem")
+                .set("border-radius", "50px")
+                .set("font-size", "0.95rem")
+                .set("font-weight", "700")
                 .set("display", "inline-block")
-                .set("margin-bottom", "1rem");
+                .set("margin-bottom", "1.5rem")
+                .set("box-shadow", "0 4px 15px rgba(0, 0, 0, 0.3)")
+                .set("animation", "slideInLeft 0.5s ease-out");
 
         H1 title = new H1(event.getTitre());
         title.getStyle()
-                .set("margin", "0")
+                .set("margin", "0 0 1rem 0")
                 .set("color", "white")
-                .set("font-size", "2.5rem")
-                .set("font-weight", "800")
-                .set("text-shadow", "2px 2px 4px rgba(0,0,0,0.5)");
+                .set("font-size", "3.5rem")
+                .set("font-weight", "900")
+                .set("text-shadow", "0 4px 20px rgba(0, 0, 0, 0.4)")
+                .set("line-height", "1.2")
+                .set("animation", "slideInLeft 0.6s ease-out 0.1s backwards");
 
         HorizontalLayout eventMeta = new HorizontalLayout();
         eventMeta.setSpacing(true);
         eventMeta.setAlignItems(FlexComponent.Alignment.CENTER);
+        eventMeta.getStyle()
+                .set("animation", "slideInLeft 0.6s ease-out 0.2s backwards");
 
-        Icon organizerIcon = VaadinIcon.USER.create();
-        organizerIcon.setSize("20px");
-        Span organizer = new Span("Par " + event.getOrganisateurNom());
+        Span organizer = new Span("👤 Par " + event.getOrganisateurNom());
         organizer.getStyle()
-                .set("font-size", "1.125rem")
-                .set("opacity", "0.95");
+                .set("font-size", "1.1rem")
+                .set("opacity", "0.95")
+                .set("font-weight", "600");
 
-        eventMeta.add(organizerIcon, organizer);
+        eventMeta.add(organizer);
 
         headerContent.add(categoryBadge, title, eventMeta);
-        overlay.add(headerContent);
+        overlay.add(pattern, headerContent);
         headerContainer.add(overlay);
 
         add(headerContainer);

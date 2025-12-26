@@ -3,6 +3,7 @@ package com.event.views;
 import com.event.model.entities.User;
 import com.event.security.NavigationManager;
 import com.event.security.SessionManager;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
@@ -69,7 +70,7 @@ public class MainLayout extends AppLayout {
             logoutButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
             logoutButton.addClickListener(e -> {
                 sessionManager.logout();
-                navigationManager.navigateToLogin();
+                UI.getCurrent().getPage().setLocation("/");
             });
 
             HorizontalLayout userLayout = new HorizontalLayout(avatar, userInfo, logoutButton);

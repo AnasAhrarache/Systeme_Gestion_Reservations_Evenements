@@ -21,7 +21,7 @@ public class NavigationManager {
         User user = sessionManager.getCurrentUser().orElse(null);
 
         if (user == null) {
-            navigateTo("login");
+            navigateTo("");
             return;
         }
 
