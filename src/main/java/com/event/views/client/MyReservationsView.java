@@ -106,8 +106,9 @@ public class MyReservationsView extends VerticalLayout implements BeforeEnterObs
         VerticalLayout filtersSection = new VerticalLayout();
         filtersSection.setWidthFull();
         filtersSection.setPadding(true);
+        filtersSection.addClassName("filters-section");
         filtersSection.getStyle()
-                .set("background", "white")
+                .set("background", "var(--lumo-contrast-5pct)")
                 .set("box-shadow", "0 2px 4px rgba(0,0,0,0.1)")
                 .set("padding", "1.5rem");
 
@@ -144,14 +145,16 @@ public class MyReservationsView extends VerticalLayout implements BeforeEnterObs
         VerticalLayout gridSection = new VerticalLayout();
         gridSection.setSizeFull();
         gridSection.setPadding(true);
+        gridSection.addClassName("grid-section");
         gridSection.getStyle()
-                .set("background", "#f7fafc");
+                .set("background", "var(--lumo-base-color)");
 
         grid = new Grid<>(Reservation.class, false);
         grid.setSizeFull();
         grid.getStyle()
-                .set("background", "white")
+                .set("background", "var(--lumo-contrast-10pct)")
                 .set("border-radius", "12px")
+                .set("border", "1px solid var(--lumo-contrast-20pct)")
                 .set("box-shadow", "0 2px 4px rgba(0,0,0,0.1)");
 
         // Code column

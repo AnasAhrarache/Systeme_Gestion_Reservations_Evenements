@@ -59,6 +59,7 @@ public class EventListView extends VerticalLayout {
         setSizeFull();
         setPadding(false);
         setSpacing(false);
+        getStyle().set("width", "100%").set("max-width", "100%");
 
         createHeader();
         createFiltersSection();
@@ -75,7 +76,8 @@ public class EventListView extends VerticalLayout {
         header.getStyle()
                 .set("background", "linear-gradient(135deg, #667eea 0%, #764ba2 100%)")
                 .set("color", "white")
-                .set("padding", "3rem 2rem");
+                .set("padding", "3rem 2rem")
+                .set("flex-shrink", "0");
 
         H1 title = new H1("Découvrez nos événements");
         title.getStyle()
@@ -99,15 +101,17 @@ public class EventListView extends VerticalLayout {
         VerticalLayout filtersSection = new VerticalLayout();
         filtersSection.setWidthFull();
         filtersSection.setPadding(true);
+        filtersSection.addClassName("filters-section");
         filtersSection.getStyle()
-                .set("background", "white")
+                .set("background", "var(--lumo-contrast-5pct)")
                 .set("box-shadow", "0 2px 4px rgba(0,0,0,0.1)")
-                .set("padding", "2rem");
+                .set("padding", "2rem")
+                .set("flex-shrink", "0");
 
         H3 filtersTitle = new H3("🔍 Filtrer les événements");
         filtersTitle.getStyle()
                 .set("margin", "0 0 1.5rem 0")
-                .set("color", "#2d3748");
+                .set("color", "var(--lumo-body-text-color)");
 
         // Search field
         searchField = new TextField();
@@ -197,10 +201,13 @@ public class EventListView extends VerticalLayout {
     private void createResultsSection() {
         VerticalLayout resultsSection = new VerticalLayout();
         resultsSection.setWidthFull();
+        resultsSection.setHeightFull();
         resultsSection.setPadding(true);
+        resultsSection.addClassName("grid-section");
         resultsSection.getStyle()
-                .set("background", "#f7fafc")
-                .set("min-height", "400px");
+                .set("background", "var(--lumo-base-color)")
+                .set("min-height", "400px")
+                .set("flex", "1");
 
         HorizontalLayout resultsHeader = new HorizontalLayout();
         resultsHeader.setWidthFull();
@@ -211,17 +218,21 @@ public class EventListView extends VerticalLayout {
         resultsCount.getStyle()
                 .set("font-size", "1.125rem")
                 .set("font-weight", "600")
-                .set("color", "#2d3748");
+                .set("color", "var(--lumo-body-text-color)");
 
         resultsHeader.add(resultsCount);
 
         resultsContainer = new VerticalLayout();
         resultsContainer.setWidthFull();
+        resultsContainer.setHeightFull();
         resultsContainer.setPadding(false);
         resultsContainer.setSpacing(true);
+        resultsContainer.getStyle().set("flex", "1");
 
         resultsSection.add(resultsHeader, resultsContainer);
+        resultsSection.setFlexGrow(1, resultsContainer);
         add(resultsSection);
+        setFlexGrow(1, resultsSection);
     }
 
     private void loadEvents() {
@@ -275,22 +286,25 @@ public class EventListView extends VerticalLayout {
 
         resultsCount.setText(currentEvents.size() + " événement(s) trouvé(s)");
 
-        // Display events in a grid layout
-        HorizontalLayout currentRow = new HorizontalLayout();
-        currentRow.setWidthFull();
-        currentRow.setSpacing(true);
-        currentRow.getStyle().set("flex-wrap", "wrap");
+        // Display events in a grid layout using a wrapper div for better responsiveness
+        Div gridWrapper = new Div();
+        gridWrapper.setWidthFull();
+        gridWrapper.getStyle()
+                .set("display", "grid")
+                .set("grid-template-columns", "repeat(auto-fill, minmax(380px, 1fr))")
+                .set("gap", "1.5rem")
+                .set("width", "100%");
 
         for (EventDTO event : currentEvents) {
-            currentRow.add(createEventCard(event));
+            gridWrapper.add(createEventCard(event));
         }
 
-        resultsContainer.add(currentRow);
+        resultsContainer.add(gridWrapper);
     }
 
     private VerticalLayout createEventCard(EventDTO event) {
         VerticalLayout card = new VerticalLayout();
-        card.setWidth("380px");
+        card.setWidth("100%");
         card.setPadding(false);
         card.setSpacing(false);
         card.getStyle()
@@ -300,7 +314,7 @@ public class EventListView extends VerticalLayout {
                 .set("overflow", "hidden")
                 .set("cursor", "pointer")
                 .set("transition", "all 0.3s ease")
-                .set("margin", "0.5rem");
+                .set("margin", "0");
 
         card.addClickListener(e -> navigationManager.navigateToEventDetails(event.getId()));
 

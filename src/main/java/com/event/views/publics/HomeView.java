@@ -44,7 +44,7 @@ public class HomeView extends VerticalLayout {
         setSizeFull();
         setPadding(false);
         setSpacing(false);
-        getStyle().set("background", "#f8fafc");
+        getStyle().set("background", "var(--lumo-base-color)");
 
         createHeroSection();
         createCategoriesSection();
@@ -203,7 +203,7 @@ public class HomeView extends VerticalLayout {
                 .set("text-align", "center")
                 .set("font-size", "2.5rem")
                 .set("font-weight", "700")
-                .set("color", "#1a202c")
+                .set("color", "var(--lumo-body-text-color)")
                 .set("margin-bottom", "3rem");
 
         HorizontalLayout grid = new HorizontalLayout();
@@ -231,7 +231,7 @@ public class HomeView extends VerticalLayout {
                 .set("border", "2px solid " + category.getColor())
                 .set("border-radius", "20px")
                 .set("cursor", "pointer")
-                .set("background", "white")
+                .set("background", "var(--lumo-contrast-10pct)")
                 .set("transition", "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)")
                 .set("box-shadow", "0 4px 6px rgba(0, 0, 0, 0.07)")
                 .set("position", "relative")
@@ -260,7 +260,7 @@ public class HomeView extends VerticalLayout {
         label.getStyle()
                 .set("font-size", "1.1rem")
                 .set("font-weight", "600")
-                .set("color", "#2d3748")
+                .set("color", "var(--lumo-body-text-color)")
                 .set("margin-top", "1rem");
 
         card.add(bgCircle, icon, label);
@@ -296,7 +296,7 @@ public class HomeView extends VerticalLayout {
         VerticalLayout section = new VerticalLayout();
         section.setWidthFull();
         section.getStyle()
-                .set("background", "linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%)")
+                .set("background", "var(--lumo-contrast-5pct)")
                 .set("padding", "4rem 2rem");
 
         VerticalLayout container = new VerticalLayout();
@@ -308,7 +308,7 @@ public class HomeView extends VerticalLayout {
                 .set("text-align", "center")
                 .set("font-size", "2.5rem")
                 .set("font-weight", "700")
-                .set("color", "#1a202c")
+                .set("color", "var(--lumo-body-text-color)")
                 .set("margin-bottom", "3rem");
 
         List<EventDTO> events = eventService.getMostPopularEventsDTO(6);
@@ -324,7 +324,7 @@ public class HomeView extends VerticalLayout {
             Paragraph noEvents = new Paragraph("Aucun événement disponible");
             noEvents.getStyle()
                     .set("text-align", "center")
-                    .set("color", "#718096")
+                    .set("color", "var(--lumo-secondary-text-color)")
                     .set("font-size", "1.2rem");
             container.add(title, noEvents);
         } else {
@@ -346,7 +346,7 @@ public class HomeView extends VerticalLayout {
                 .set("border", "none");
         viewAll.addClickListener(e -> navigationManager.navigateToEvents());
 
-        addButtonHoverEffect(viewAll, "transform: translateY(-3px); box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);");
+        addButtonHoverEffect(viewAll, "transform: translateY(-3px); box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);");;
 
         container.add(viewAll);
         container.setHorizontalComponentAlignment(Alignment.CENTER, viewAll);
@@ -431,7 +431,7 @@ public class HomeView extends VerticalLayout {
                 .set("margin", "0")
                 .set("font-size", "1.5rem")
                 .set("font-weight", "700")
-                .set("color", "#1a202c")
+                .set("color", "var(--lumo-body-text-color)")
                 .set("line-height", "1.3");
 
         // Date and location
@@ -444,7 +444,7 @@ public class HomeView extends VerticalLayout {
         calendarIcon.setSize("18px");
         calendarIcon.getStyle().set("color", "#667eea");
         Span date = new Span(event.getDateDebut().format(DATE_FORMATTER));
-        date.getStyle().set("color", "#4a5568").set("font-size", "0.95rem");
+        date.getStyle().set("color", "var(--lumo-secondary-text-color)").set("font-size", "0.95rem");
         dateInfo.add(calendarIcon, date);
         dateInfo.setAlignItems(Alignment.CENTER);
 
@@ -453,7 +453,7 @@ public class HomeView extends VerticalLayout {
         locationIcon.setSize("18px");
         locationIcon.getStyle().set("color", "#667eea");
         Span location = new Span(event.getVille());
-        location.getStyle().set("color", "#4a5568").set("font-size", "0.95rem");
+        location.getStyle().set("color", "var(--lumo-secondary-text-color)").set("font-size", "0.95rem");
         locationInfo.add(locationIcon, location);
         locationInfo.setAlignItems(Alignment.CENTER);
 
@@ -467,7 +467,7 @@ public class HomeView extends VerticalLayout {
         footer.getStyle()
                 .set("margin-top", "0.5rem")
                 .set("padding-top", "1rem")
-                .set("border-top", "1px solid #e2e8f0");
+                .set("border-top", "1px solid var(--lumo-contrast-20pct)");
 
         Span price = new Span(String.format("%.0f DH", event.getPrixUnitaire()));
         price.getStyle()
@@ -526,7 +526,7 @@ public class HomeView extends VerticalLayout {
                 .set("text-align", "center")
                 .set("font-size", "2.5rem")
                 .set("font-weight", "700")
-                .set("color", "#1a202c")
+                .set("color", "var(--lumo-body-text-color)")
                 .set("margin-bottom", "3rem");
 
         HorizontalLayout grid = new HorizontalLayout(
@@ -560,7 +560,8 @@ public class HomeView extends VerticalLayout {
         card.getStyle()
                 .set("padding", "2.5rem 2rem")
                 .set("border-radius", "20px")
-                .set("background", "white")
+                .set("background", "var(--lumo-contrast-10pct)")
+                .set("border", "1px solid var(--lumo-contrast-20pct)")
                 .set("box-shadow", "0 4px 6px rgba(0, 0, 0, 0.05)")
                 .set("transition", "all 0.3s ease")
                 .set("text-align", "center");
@@ -589,12 +590,12 @@ public class HomeView extends VerticalLayout {
                 .set("margin", "0 0 1rem 0")
                 .set("font-size", "1.5rem")
                 .set("font-weight", "700")
-                .set("color", "#1a202c");
+                .set("color", "var(--lumo-body-text-color)");
 
         Paragraph p = new Paragraph(description);
         p.getStyle()
                 .set("margin", "0")
-                .set("color", "#718096")
+                .set("color", "var(--lumo-secondary-text-color)")
                 .set("line-height", "1.6")
                 .set("font-size", "1rem");
 

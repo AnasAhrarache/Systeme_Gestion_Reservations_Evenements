@@ -117,7 +117,7 @@ public class ProfileView extends VerticalLayout implements BeforeEnterObserver {
                                 .set("max-width", "1200px")
                                 .set("margin", "0 auto")
                                 .set("padding", "2rem")
-                                .set("background", "#f7fafc");
+                                .set("background", "var(--lumo-base-color)");
 
                 // Left column - Profile info
                 VerticalLayout leftColumn = createLeftColumn();
@@ -139,10 +139,12 @@ public class ProfileView extends VerticalLayout implements BeforeEnterObserver {
                 // Profile card
                 VerticalLayout profileCard = new VerticalLayout();
                 profileCard.setPadding(true);
+                profileCard.addClassName("profile-card");
                 profileCard.setAlignItems(Alignment.CENTER);
                 profileCard.getStyle()
-                                .set("background", "white")
+                                .set("background", "var(--lumo-contrast-10pct)")
                                 .set("border-radius", "12px")
+                                .set("border", "1px solid var(--lumo-contrast-20pct)")
                                 .set("box-shadow", "0 4px 6px rgba(0,0,0,0.1)")
                                 .set("text-align", "center");
 
@@ -198,15 +200,17 @@ public class ProfileView extends VerticalLayout implements BeforeEnterObserver {
         private VerticalLayout createStatisticsCard() {
                 VerticalLayout statsCard = new VerticalLayout();
                 statsCard.setPadding(true);
+                statsCard.addClassName("stats-card");
                 statsCard.getStyle()
-                                .set("background", "white")
+                                .set("background", "var(--lumo-contrast-10pct)")
                                 .set("border-radius", "12px")
+                                .set("border", "1px solid var(--lumo-contrast-20pct)")
                                 .set("box-shadow", "0 4px 6px rgba(0,0,0,0.1)");
 
                 H3 statsTitle = new H3("📊 Statistiques");
                 statsTitle.getStyle()
                                 .set("margin", "0 0 1.5rem 0")
-                                .set("color", "#2d3748");
+                                .set("color", "var(--lumo-body-text-color)");
 
                 Map<String, Object> stats = userService.getUserStatistics(currentUser.getId());
 
@@ -237,7 +241,7 @@ public class ProfileView extends VerticalLayout implements BeforeEnterObserver {
                 row.setAlignItems(FlexComponent.Alignment.CENTER);
                 row.getStyle()
                                 .set("padding", "1rem 0")
-                                .set("border-bottom", "1px solid #e2e8f0");
+                                .set("border-bottom", "1px solid var(--lumo-contrast-20pct)");
 
                 HorizontalLayout leftSide = new HorizontalLayout();
                 leftSide.setSpacing(true);
@@ -296,15 +300,17 @@ public class ProfileView extends VerticalLayout implements BeforeEnterObserver {
         private VerticalLayout createProfileForm() {
                 VerticalLayout formCard = new VerticalLayout();
                 formCard.setPadding(true);
+                formCard.addClassName("form-card");
                 formCard.getStyle()
-                                .set("background", "white")
+                                .set("background", "var(--lumo-contrast-10pct)")
                                 .set("border-radius", "12px")
+                                .set("border", "1px solid var(--lumo-contrast-20pct)")
                                 .set("box-shadow", "0 4px 6px rgba(0,0,0,0.1)");
 
                 H3 formTitle = new H3("✏️ Informations personnelles");
                 formTitle.getStyle()
                                 .set("margin", "0 0 1.5rem 0")
-                                .set("color", "#2d3748");
+                                .set("color", "var(--lumo-body-text-color)");
 
                 FormLayout formLayout = new FormLayout();
                 formLayout.setResponsiveSteps(
@@ -390,15 +396,17 @@ public class ProfileView extends VerticalLayout implements BeforeEnterObserver {
         private VerticalLayout createPasswordForm() {
                 VerticalLayout formCard = new VerticalLayout();
                 formCard.setPadding(true);
+                formCard.addClassName("form-card");
                 formCard.getStyle()
-                                .set("background", "white")
+                                .set("background", "var(--lumo-contrast-10pct)")
                                 .set("border-radius", "12px")
+                                .set("border", "1px solid var(--lumo-contrast-20pct)")
                                 .set("box-shadow", "0 4px 6px rgba(0,0,0,0.1)");
 
                 H3 formTitle = new H3("🔒 Changer le mot de passe");
                 formTitle.getStyle()
                                 .set("margin", "0 0 1.5rem 0")
-                                .set("color", "#2d3748");
+                                .set("color", "var(--lumo-body-text-color)");
 
                 FormLayout formLayout = new FormLayout();
                 formLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 1));

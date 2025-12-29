@@ -1,0 +1,463 @@
+/* Dark mode theme override for Vaadin Lumo theme */
+
+/* ============================================
+   DISABLE DARK MODE FOR LOGIN/REGISTER PAGES
+   ============================================ */
+
+/* Login view - always light */
+[class*="login-view"],
+[class*="register-view"],
+.login,
+.register {
+  color-scheme: light !important;
+}
+
+/* Disable dark theme attribute on auth pages */
+[class*="login-view"] html[theme~="dark"],
+[class*="register-view"] html[theme~="dark"],
+.login html[theme~="dark"],
+.register html[theme~="dark"] {
+  theme: none !important;
+}
+
+html[theme~="dark"] {
+  color-scheme: dark;
+  
+  /* Override Lumo CSS variables for dark theme */
+  --lumo-base-color: #1a1a1a;
+  --lumo-body-text-color: #e0e0e0;
+  --lumo-secondary-text-color: #a0a0a0;
+  --lumo-tertiary-text-color: #808080;
+  --lumo-disabled-text-color: #606060;
+  --lumo-contrast-5pct: #2a2a2a;
+  --lumo-contrast-10pct: #333333;
+  --lumo-contrast-20pct: #404040;
+  --lumo-contrast-30pct: #4d4d4d;
+  --lumo-contrast-40pct: #595959;
+  --lumo-contrast-50pct: #666666;
+  --lumo-contrast-60pct: #737373;
+  --lumo-contrast-70pct: #808080;
+  --lumo-contrast-80pct: #8c8c8c;
+  --lumo-contrast-90pct: #999999;
+  
+  /* Border colors */
+  --lumo-border-radius: 4px;
+  --lumo-primary-border-color: #667eea;
+  
+  /* Text field and input */
+  --lumo-input-field-border-color: #404040;
+  
+  /* Card/container backgrounds */
+  --lumo-secondary-text-color: #b0b0b0;
+  
+  background-color: var(--lumo-base-color);
+  color: var(--lumo-body-text-color);
+}
+
+html[theme~="dark"] * {
+  color: var(--lumo-body-text-color);
+}
+
+html[theme~="dark"] body {
+  background-color: var(--lumo-base-color);
+  color: var(--lumo-body-text-color);
+}
+
+/* ============================================
+   FILTER SECTIONS AND CONTAINERS
+   ============================================ */
+
+/* Filter section backgrounds - adapts to dark mode */
+html[theme~="dark"] .filters-section,
+html[theme~="dark"] [class*="filter"],
+html[theme~="dark"] .form-section {
+  background-color: #252525 !important;
+  color: var(--lumo-body-text-color);
+  border-bottom: 1px solid #404040;
+}
+
+/* Override inline styles for dark mode */
+html[theme~="dark"] div[style*="background: white"],
+html[theme~="dark"] div[style*="background: #f7fafc"] {
+  background-color: #252525 !important;
+  color: var(--lumo-body-text-color) !important;
+}
+
+/* Title styling in dark filter sections */
+html[theme~="dark"] .filters-section h3,
+html[theme~="dark"] [class*="filter"] h3,
+html[theme~="dark"] .form-section h3 {
+  color: var(--lumo-body-text-color) !important;
+}
+
+/* Grid section backgrounds */
+html[theme~="dark"] .grid-section {
+  background-color: #1a1a1a !important;
+}
+
+/* Navbar styling in dark mode */
+html[theme~="dark"] [part="navbar"] {
+  background-color: #2a2a2a;
+  border-bottom: 1px solid #404040;
+}
+
+/* Drawer styling in dark mode */
+html[theme~="dark"] [part="drawer"] {
+  background-color: #2a2a2a;
+}
+
+/* Side nav items */
+html[theme~="dark"] vaadin-side-nav-item {
+  color: var(--lumo-body-text-color);
+}
+
+html[theme~="dark"] vaadin-side-nav-item[active] {
+  background-color: #404040;
+  color: #667eea;
+}
+
+/* ============================================
+   INPUT FIELD STYLING - IMPROVED
+   ============================================ */
+
+/* Text field styling in dark mode - enhanced */
+html[theme~="dark"] vaadin-text-field,
+html[theme~="dark"] vaadin-password-field,
+html[theme~="dark"] vaadin-email-field,
+html[theme~="dark"] vaadin-number-field,
+html[theme~="dark"] vaadin-text-area,
+html[theme~="dark"] vaadin-combo-box,
+html[theme~="dark"] vaadin-select,
+html[theme~="dark"] vaadin-date-picker {
+  color: var(--lumo-body-text-color);
+}
+
+/* Input field inner styling */
+html[theme~="dark"] vaadin-text-field::part(input-field),
+html[theme~="dark"] vaadin-password-field::part(input-field),
+html[theme~="dark"] vaadin-email-field::part(input-field),
+html[theme~="dark"] vaadin-number-field::part(input-field),
+html[theme~="dark"] vaadin-text-area::part(textarea),
+html[theme~="dark"] vaadin-combo-box::part(input-field),
+html[theme~="dark"] vaadin-select::part(input-field),
+html[theme~="dark"] vaadin-date-picker::part(input-field) {
+  background-color: #333333 !important;
+  color: var(--lumo-body-text-color) !important;
+  border-color: #404040 !important;
+  border: 1px solid #404040 !important;
+}
+
+/* Input field labels */
+html[theme~="dark"] vaadin-text-field::part(label),
+html[theme~="dark"] vaadin-password-field::part(label),
+html[theme~="dark"] vaadin-email-field::part(label),
+html[theme~="dark"] vaadin-number-field::part(label),
+html[theme~="dark"] vaadin-text-area::part(label),
+html[theme~="dark"] vaadin-combo-box::part(label),
+html[theme~="dark"] vaadin-select::part(label),
+html[theme~="dark"] vaadin-date-picker::part(label) {
+  color: var(--lumo-secondary-text-color) !important;
+  font-weight: 500;
+}
+
+/* Input field placeholder */
+html[theme~="dark"] vaadin-text-field::placeholder,
+html[theme~="dark"] vaadin-password-field::placeholder,
+html[theme~="dark"] vaadin-email-field::placeholder,
+html[theme~="dark"] vaadin-number-field::placeholder,
+html[theme~="dark"] vaadin-text-area::placeholder {
+  color: #707070 !important;
+}
+
+/* Combo box and Select dropdowns */
+html[theme~="dark"] vaadin-combo-box-item,
+html[theme~="dark"] vaadin-select-item {
+  background-color: #333333 !important;
+  color: var(--lumo-body-text-color) !important;
+}
+
+html[theme~="dark"] vaadin-combo-box-item:hover,
+html[theme~="dark"] vaadin-select-item:hover {
+  background-color: #404040 !important;
+}
+
+html[theme~="dark"] vaadin-combo-box-item[selected],
+html[theme~="dark"] vaadin-select-item[selected] {
+  background-color: #667eea !important;
+  color: white !important;
+}
+
+/* Input field focus states */
+html[theme~="dark"] vaadin-text-field:focus-visible::part(input-field),
+html[theme~="dark"] vaadin-password-field:focus-visible::part(input-field),
+html[theme~="dark"] vaadin-email-field:focus-visible::part(input-field),
+html[theme~="dark"] vaadin-number-field:focus-visible::part(input-field),
+html[theme~="dark"] vaadin-text-area:focus-visible::part(textarea),
+html[theme~="dark"] vaadin-combo-box:focus-visible::part(input-field),
+html[theme~="dark"] vaadin-select:focus-visible::part(input-field),
+html[theme~="dark"] vaadin-date-picker:focus-visible::part(input-field) {
+  border-color: #667eea !important;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1) !important;
+}
+
+/* Clear button styling */
+html[theme~="dark"] vaadin-text-field::part(clear-button),
+html[theme~="dark"] vaadin-password-field::part(clear-button),
+html[theme~="dark"] vaadin-email-field::part(clear-button),
+html[theme~="dark"] vaadin-number-field::part(clear-button),
+html[theme~="dark"] vaadin-text-area::part(clear-button),
+html[theme~="dark"] vaadin-combo-box::part(clear-button),
+html[theme~="dark"] vaadin-date-picker::part(clear-button) {
+  color: #a0a0a0;
+}
+
+/* Prefix and suffix icons */
+html[theme~="dark"] vaadin-text-field::part(prefix),
+html[theme~="dark"] vaadin-text-field::part(suffix),
+html[theme~="dark"] vaadin-password-field::part(prefix),
+html[theme~="dark"] vaadin-password-field::part(suffix),
+html[theme~="dark"] vaadin-email-field::part(prefix),
+html[theme~="dark"] vaadin-email-field::part(suffix),
+html[theme~="dark"] vaadin-number-field::part(prefix),
+html[theme~="dark"] vaadin-number-field::part(suffix) {
+  color: #a0a0a0;
+}
+
+/* ============================================
+   FORM LAYOUT STYLING
+   ============================================ */
+
+html[theme~="dark"] vaadin-form-layout {
+  background-color: #252525;
+  color: var(--lumo-body-text-color);
+}
+
+html[theme~="dark"] vaadin-form-layout::part(label) {
+  color: var(--lumo-secondary-text-color);
+}
+
+/* ============================================
+   CARD/CONTAINER STYLING
+   ============================================ */
+
+/* Card styling in dark mode */
+html[theme~="dark"] .card,
+html[theme~="dark"] [class*="card"],
+html[theme~="dark"] [class*="section"],
+html[theme~="dark"] .container {
+  background-color: #252525;
+  border: 1px solid #404040;
+  color: var(--lumo-body-text-color);
+}
+
+/* ============================================
+   BUTTON STYLING IN DARK MODE
+   ============================================ */
+
+/* Button styling in dark mode */
+html[theme~="dark"] vaadin-button[theme~="primary"],
+html[theme~="dark"] vaadin-button[theme~="success"] {
+  background-color: #667eea;
+  color: white;
+}
+
+html[theme~="dark"] vaadin-button[theme~="primary"]:hover,
+html[theme~="dark"] vaadin-button[theme~="success"]:hover {
+  background-color: #5568d3;
+}
+
+html[theme~="dark"] vaadin-button[theme~="tertiary"] {
+  color: #a0a0a0;
+}
+
+html[theme~="dark"] vaadin-button[theme~="tertiary"]:hover {
+  color: var(--lumo-body-text-color);
+  background-color: #333333;
+}
+
+html[theme~="dark"] vaadin-button[theme~="danger"] {
+  background-color: #d32f2f;
+  color: white;
+}
+
+html[theme~="dark"] vaadin-button[theme~="danger"]:hover {
+  background-color: #b71c1c;
+}
+
+/* ============================================
+   GRID STYLING
+   ============================================ */
+
+html[theme~="dark"] vaadin-grid {
+  background-color: #252525;
+  color: var(--lumo-body-text-color);
+  border: 1px solid #404040;
+}
+
+html[theme~="dark"] vaadin-grid::part(row) {
+  background-color: #252525;
+  border-color: #404040;
+  color: var(--lumo-body-text-color);
+}
+
+html[theme~="dark"] vaadin-grid::part(row):hover {
+  background-color: #333333;
+}
+
+html[theme~="dark"] vaadin-grid::part(header-cell) {
+  background-color: #333333;
+  color: var(--lumo-body-text-color);
+  border-color: #404040;
+  font-weight: 600;
+}
+
+html[theme~="dark"] vaadin-grid::part(body-cell) {
+  border-color: #404040;
+  color: var(--lumo-body-text-color);
+}
+
+html[theme~="dark"] vaadin-grid::part(footer-cell) {
+  background-color: #333333;
+  border-color: #404040;
+  color: var(--lumo-body-text-color);
+}
+
+/* ============================================
+   DIALOG AND OVERLAY STYLING
+   ============================================ */
+
+/* Dialog styling */
+html[theme~="dark"] vaadin-dialog-overlay::part(overlay) {
+  background-color: #2a2a2a;
+  color: var(--lumo-body-text-color);
+  border: 1px solid #404040;
+  border-radius: 8px;
+  box-shadow: 0 5px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Confirm Dialog */
+html[theme~="dark"] vaadin-confirm-dialog-overlay::part(overlay) {
+  background-color: #2a2a2a;
+  color: var(--lumo-body-text-color);
+}
+
+html[theme~="dark"] vaadin-confirm-dialog::part(header) {
+  background-color: #333333;
+  border-bottom: 1px solid #404040;
+}
+
+/* Notification styling */
+html[theme~="dark"] vaadin-notification-card {
+  background-color: #333333;
+  color: var(--lumo-body-text-color);
+  border: 1px solid #404040;
+  border-radius: 4px;
+}
+
+/* ============================================
+   ACCORDION AND PANEL STYLING
+   ============================================ */
+
+html[theme~="dark"] vaadin-accordion {
+  background-color: #252525;
+}
+
+html[theme~="dark"] vaadin-accordion-panel::part(summary) {
+  background-color: #333333;
+  color: var(--lumo-body-text-color);
+  border-color: #404040;
+}
+
+html[theme~="dark"] vaadin-accordion-panel::part(summary):hover {
+  background-color: #3d3d3d;
+}
+
+html[theme~="dark"] vaadin-accordion-panel::part(content) {
+  background-color: #252525;
+  color: var(--lumo-body-text-color);
+}
+
+/* ============================================
+   TABS STYLING
+   ============================================ */
+
+html[theme~="dark"] vaadin-tabs {
+  background-color: #252525;
+  border-color: #404040;
+}
+
+html[theme~="dark"] vaadin-tab {
+  color: var(--lumo-secondary-text-color);
+  border-color: #404040;
+}
+
+html[theme~="dark"] vaadin-tab[selected] {
+  color: #667eea;
+  border-bottom-color: #667eea;
+}
+
+/* ============================================
+   ADDITIONAL STYLING
+   ============================================ */
+
+/* Links in dark mode */
+html[theme~="dark"] a {
+  color: #667eea;
+}
+
+html[theme~="dark"] a:visited {
+  color: #8899dd;
+}
+
+html[theme~="dark"] a:hover {
+  color: #7a8aff;
+}
+
+/* Hr/divider */
+html[theme~="dark"] hr {
+  border-color: #404040;
+}
+
+/* Smooth transitions for theme switching */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+vaadin-text-field,
+vaadin-password-field,
+vaadin-email-field,
+vaadin-number-field,
+vaadin-text-area,
+vaadin-combo-box,
+vaadin-select,
+vaadin-date-picker,
+vaadin-grid,
+vaadin-button {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* ============================================
+   HOME PAGE & EVENT CARD STYLING
+   ============================================ */
+
+html[theme~="dark"] .event-card,
+html[theme~="dark"] vaadin-card,
+html[theme~="dark"] .card-container {
+  background-color: var(--lumo-contrast-10pct) !important;
+  border: 1px solid var(--lumo-contrast-20pct) !important;
+  color: var(--lumo-body-text-color) !important;
+}
+
+html[theme~="dark"] .category-card {
+  background-color: var(--lumo-contrast-10pct);
+  border-color: var(--lumo-contrast-20pct);
+}
+
+html[theme~="dark"] .feature-card {
+  background-color: var(--lumo-contrast-10pct);
+  border-color: var(--lumo-contrast-20pct);
+}

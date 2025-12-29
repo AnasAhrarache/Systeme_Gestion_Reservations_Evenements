@@ -3,6 +3,7 @@ package com.event.views;
 import com.event.model.entities.User;
 import com.event.security.NavigationManager;
 import com.event.security.SessionManager;
+import com.event.service.ThemeManager;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -11,6 +12,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -25,11 +27,14 @@ public class MainLayout extends AppLayout {
 
     private final SessionManager sessionManager;
     private final NavigationManager navigationManager;
+    private final ThemeManager themeManager;
 
-    public MainLayout(SessionManager sessionManager, NavigationManager navigationManager) {
+    public MainLayout(SessionManager sessionManager, NavigationManager navigationManager, ThemeManager themeManager) {
         this.sessionManager = sessionManager;
         this.navigationManager = navigationManager;
+        this.themeManager = themeManager;
 
+        themeManager.initializeTheme();
         createHeader();
         createDrawer();
     }
@@ -43,6 +48,9 @@ public class MainLayout extends AppLayout {
         logo.getStyle()
                 .set("font-weight", "bold")
                 .set("color", "var(--lumo-primary-color)");
+
+        // Create theme toggle button
+        Button themeToggle = createThemeToggleButton();
 
         Optional<User> userOpt = sessionManager.getCurrentUser();
 
@@ -73,7 +81,7 @@ public class MainLayout extends AppLayout {
                 UI.getCurrent().getPage().setLocation("/");
             });
 
-            HorizontalLayout userLayout = new HorizontalLayout(avatar, userInfo, logoutButton);
+            HorizontalLayout userLayout = new HorizontalLayout(avatar, userInfo, themeToggle, logoutButton);
             userLayout.setAlignItems(FlexComponent.Alignment.CENTER);
             userLayout.setSpacing(true);
 
@@ -87,7 +95,7 @@ public class MainLayout extends AppLayout {
             registerButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
             registerButton.addClickListener(e -> navigationManager.navigateToRegister());
 
-            HorizontalLayout authButtons = new HorizontalLayout(loginButton, registerButton);
+            HorizontalLayout authButtons = new HorizontalLayout(themeToggle, loginButton, registerButton);
             authButtons.setSpacing(true);
 
             header = new HorizontalLayout(new DrawerToggle(), logo, authButtons);
@@ -167,5 +175,60 @@ public class MainLayout extends AppLayout {
         nav.addItem(new SideNavItem("Événements", "admin/events", VaadinIcon.CALENDAR.create()));
         nav.addItem(new SideNavItem("Réservations", "admin/reservations", VaadinIcon.TICKET.create()));
         nav.addItem(new SideNavItem("Mon profil", "profile", VaadinIcon.USER.create()));
+    }
+
+    private Button createThemeToggleButton() {
+        Icon themeIcon = new Icon(VaadinIcon.MOON);
+        Button themeToggle = new Button(themeIcon);
+        
+        themeToggle.addThemeVariants(ButtonVariant.LUMO_ICON);
+        themeToggle.getElement().setAttribute("aria-label", "Changer le thème");
+        themeToggle.getStyle()
+                .set("border-radius", "50%")
+                .set("width", "40px")
+                .set("height", "40px")
+                .set("padding", "0")
+                .set("display", "flex")
+                .set("align-items", "center")
+                .set("justify-content", "center")
+                .set("transition", "all 0.3s ease")
+                .set("cursor", "pointer");
+        
+        // Set initial icon based on current theme
+        UI.getCurrent().getPage().executeJs(
+            "return localStorage.getItem('app_theme') || 'light';"
+        ).then(theme -> {
+            if ("dark".equals(theme)) {
+                Icon sunIcon = new Icon(VaadinIcon.CLOUD_O);
+                themeToggle.setIcon(sunIcon);
+            } else {
+                Icon moonIcon = new Icon(VaadinIcon.MOON);
+                themeToggle.setIcon(moonIcon);
+            }
+        });
+        
+        themeToggle.addClickListener(e -> {
+            UI.getCurrent().getPage().executeJs(
+                "const currentTheme = localStorage.getItem('app_theme') || 'light';" +
+                "const newTheme = currentTheme === 'dark' ? 'light' : 'dark';" +
+                "localStorage.setItem('app_theme', newTheme);" +
+                "if (newTheme === 'dark') {" +
+                "  document.documentElement.setAttribute('theme', 'dark');" +
+                "} else {" +
+                "  document.documentElement.removeAttribute('theme');" +
+                "}" +
+                "return newTheme;"
+            ).then(newTheme -> {
+                if ("dark".equals(newTheme)) {
+                    Icon sunIcon = new Icon(VaadinIcon.CLOUD_O);
+                    themeToggle.setIcon(sunIcon);
+                } else {
+                    Icon moonIcon = new Icon(VaadinIcon.MOON);
+                    themeToggle.setIcon(moonIcon);
+                }
+            });
+        });
+        
+        return themeToggle;
     }
 }

@@ -1,6 +1,6 @@
 -- Insert Users (demo accounts: passwords will be migrated to bcrypt on first login)
 INSERT INTO users (nom, prenom, email, password, role, date_inscription, actif, telephone) VALUES
-                                                                                               ('Admin', 'System', 'admin@event.ma', 'admin123', 'ADMIN', CURRENT_TIMESTAMP, true, '0612345678'),
+                                                                                               ('Admin', 'Anas', 'admin@event.ma', 'admin123', 'ADMIN', CURRENT_TIMESTAMP, true, '0612345678'),
                                                                                                ('Admin2', 'System', 'admin2@event.ma', 'admin111', 'ADMIN', CURRENT_TIMESTAMP, true, '0612345678'),
                                                                                                ('Alami', 'Hassan', 'organizer1@event.ma', 'org123', 'ORGANIZER', CURRENT_TIMESTAMP, true, '0623456789'),
                                                                                                ('Bennani', 'Fatima', 'organizer2@event.ma', 'org123', 'ORGANIZER', CURRENT_TIMESTAMP, true, '0634567890'),
